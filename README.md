@@ -15,25 +15,29 @@ Flood Risk Calculation: Based on the model predictions, calculate flood zones us
 
 
 
+# 1 install & run
+
+#NOTE : the requirements will be a few Gb woth of storage. Unless you're working with a codespace, the installation will take some time depending on your internet speed.
+# 1.1 install mini conda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh
+
+# 1.2 Restart Terminal then create a virtual environment with conda 
+conda create --name flood_mapping python=3.8
+conda init
+conda activate flood_mapping
+
+# 1.3 Install all requirements 
+pip install -r requirements.txt
+
+Note : if issues arise with gdal install
+conda install -c conda-forge gdal
+sudo apt-get update
+sudo apt-get install -y gdal-bin libgdal-dev
+pip install gdal
+pip install requirements.txt
 
 
 
 
-
-
-
-
-
-
-
-
-
-# GitHub Codespaces ♥️ Jupyter Notebooks
-
-optimize your setup for CPU usage. For better compatibility with libraries like TensorFlow and PyTorch, ensure they use the CPU effectively. 
-
-python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-
-GeoPandas: To handle geospatial data.
-Matplotlib: For basic visualizations (e.g., flood maps).
-Plotly: For interactive visualizations (e.g., interactive flood zone maps).

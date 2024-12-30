@@ -1,4 +1,6 @@
 import sys
+sys.path.append('/home/codespace/miniconda3/envs/flood_mapping/lib/python3.8/site-packages')
+
 
 import torch
 from torchvision import transforms

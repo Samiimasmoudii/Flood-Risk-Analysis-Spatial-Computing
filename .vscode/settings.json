@@ -1,0 +1,4 @@
+{
+    "python.defaultInterpreterPath": "/home/codespace/miniconda3/envs/flood_mapping/bin/python",
+    "python.condaPath": "/home/codespace/miniconda3/bin/conda"
+}

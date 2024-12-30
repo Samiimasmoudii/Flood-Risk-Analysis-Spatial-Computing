@@ -6,7 +6,7 @@ from glob import glob
 import zipfile
 import warnings
 import argparse
-import gdal
+from osgeo import gdal
 from glob import glob
 from scipy import interpolate
 import math
