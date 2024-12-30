@@ -4,11 +4,11 @@
     "cpus": 4
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "python3 -m pip install -r requirements.txt",
-  "postCreateCommand": "",
+  "updateContentCommand": "sudo apt-get update && sudo apt-get install -y gdal-bin libgdal-dev && python3 -m pip install -r requirements.txt", // optimize your setup for CPU usage. 
+  "postCreateCommand": "jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root", //automatically start the Jupyter server in Codespaces  
   "customizations": {
     "codespaces": {
-      "openFiles": []
+      "openFiles": ["notebook.ipynb"]
     },
     "vscode": {
       "extensions": [
