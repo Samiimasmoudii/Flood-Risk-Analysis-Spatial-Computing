@@ -1,0 +1,64 @@
+from sentinelhub import SHConfig, SentinelHubRequest, bbox_to_dimensions, BBox, CRS, DataCollection, MimeType
+from evalscript import evalscript
+
+#Coordinates for a map in Tunisia
+longitude_min = 8.228
+latitude_min = 36.807
+longitude_max = 10.228
+latitude_max = 37.807
+
+
+# Step 1: Configure your Sentinel Hub credentials
+config = SHConfig()
+config.instance_id = "your instance id"
+config.sh_client_id = "your Client Id"
+config.sh_client_secret = "Your Client Secret"
+input_data = [
+    {
+        "type": "SentinelHubRequest",
+        "data_source": "S2L1C",  # Sentinel-2 Level 1C data
+        "maxcc": 0.2,  # Max cloud coverage
+        "time": ("2024-01-01", "2024-01-31")  # Time range
+    }
+]
+
+# Define the responses (what to do with the data)
+responses = [
+    {
+        "type": "image",
+        "format": MimeType.TIFF,
+        "bandIds": ["ndvi"]  # ID to store the output NDVI
+    }
+]
+# Step 2: Define your area of interest (bounding box) and resolution
+bbox = BBox([longitude_min, latitude_min, longitude_max, latitude_max], CRS.WGS84)
+resolution = 10  # 10 meters per pixel
+size = [2500, 2500]  # Set the size within the allowed limit
+request = SentinelHubRequest(
+    evalscript=evalscript,
+    input_data=[
+        SentinelHubRequest.input_data(
+            data_collection=DataCollection.SENTINEL2_L1C,
+            time_interval=("2024-01-01", "2024-01-31"),
+        )
+    ],
+    responses=[
+        SentinelHubRequest.output_response("default", MimeType.TIFF)
+    ],
+    bbox=bbox,
+    size=size,  # Use the adjusted size
+    config=config,
+)
+
+#
+image_data = request.get_data()
+output_path = "../data/raw/output_image.tiff" 
+
+print(f"Image data retrieved: {image_data}")
+
+# Write the data to a file
+if image_data:
+    with open(output_path, "wb") as file:
+        file.write(image_data[0])
+else:
+    print("No data retrieved. Please check the request parameters.")

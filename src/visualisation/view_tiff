@@ -1,0 +1,17 @@
+import rasterio
+import matplotlib.pyplot as plt
+
+# Path to your downloaded GeoTIFF file
+file_path = "../../data/Sentinel/raw/output_image.tiff"
+
+# Open the GeoTIFF file
+with rasterio.open(file_path) as dataset:
+    # Read the first band (if it's a single-band image)
+    image = dataset.read(1)
+
+# Plot the image
+plt.figure(figsize=(10, 10))
+plt.imshow(image, cmap='gray')
+plt.colorbar()
+plt.title("Visualizing GeoTIFF Image")
+plt.show()
