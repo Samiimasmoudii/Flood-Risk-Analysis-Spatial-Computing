@@ -1,4 +1,4 @@
-data
+
 notebooks/cifar_net.pth
 src/data_ingest/sentinel_download_sami
 .ipynb_checkpoints/
