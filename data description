@@ -1,0 +1,76 @@
+### Dataset Description and Classification
+
+The dataset described in the text is used for flood detection, with training and validation data derived from two primary sources: **permanent water data** and **flood event data**. Below is a breakdown of the dataset and its classification methodology:
+
+---
+
+### **1. Permanent Water Data**
+#### **Source:**
+- **JRC Surface Water Dataset**: This dataset provides monthly surface water observations at a 30m resolution from Landsat satellite imagery (1984–2018).
+
+#### **Classification:**
+- **Water Pixels (True Positive):** 
+  - Pixels identified as "permanent" water observed at both the start and end of the dataset.
+  - Used as accurate examples of water.
+- **Non-Water Pixels (True Negative):**
+  - Pixels never observed as water.
+- **Ignored Pixels:**
+  - Seasonal or ephemeral water pixels due to lower accuracy in detecting transient water classes.
+
+#### **Accuracy:**
+- Permanent water class has less than 1% error in commission and omission.
+- Other water classes are less reliable due to factors like cloud cover and sedimentation.
+
+---
+
+### **2. Flood Event Data**
+#### **Source:**
+- **Global Database of Flood Event Areas (Dartmouth Flood Observatory)**:
+  - Flood events covered by Sentinel-1 and Sentinel-2 satellite imagery.
+  - Additional events in Cambodia and Spain were selected to increase geographic diversity.
+
+#### **Preprocessing:**
+- **Data Extraction:**
+  - Google Earth Engine was used to filter and intersect Sentinel-1 and Sentinel-2 images for flood events.
+- **Flood Maps:**
+  - **Sentinel-1 Flood Map**: Created using a dynamic threshold on the VH band with methods like Otsu’s thresholding.
+  - **Sentinel-2 Flood Map**: Generated using indices like:
+    - **NDVI**: Normalized Difference Vegetation Index.
+    - **MNDWI**: Modified Normalized Difference Water Index.
+    - Additional steps included cloud detection and shadow masking.
+
+#### **Chip Creation and Sampling:**
+- Imagery divided into 512 x 512 non-overlapping chips.
+- Chips with major cloud cover were excluded.
+- **Hand-Labeled Chips:**
+  - 446 chips were stratified and hand-labeled by analysts for validation.
+  - Stratification: 75% of chips had >0.02 sq. km of water; 25% had ≤0.02 sq. km.
+- **Non-Hand-Labeled Chips:**
+  - 4,385 chips exported with Sentinel-1 and Sentinel-2 flood classifications for weakly supervised training.
+
+---
+
+### **3. Hand Labeling Process**
+- **Analyst Tools:**
+  - GUI in Google Earth Engine with access to Sentinel-1 VH bands, Sentinel-2 composites, and reference classifications.
+- **Labeling Actions:**
+  - Mark water areas to add or remove.
+  - Identify uncertain areas as “no data.”
+
+---
+
+### **4. Dataset Split**
+- **Bolivia as Test Data:**
+  - All hand-labeled data from Bolivia is reserved for testing, ensuring evaluation on unseen flood events.
+  - Sentinel-2 classifications for Bolivia are excluded from training and validation.
+- **Other Data:**
+  - Hand-labeled data split into **60% training**, **20% validation**, and **20% testing**.
+  - Non-hand-labeled data used for weakly supervised training.
+
+---
+
+### **Summary**
+The dataset is designed to:
+1. Reliably identify permanent water (JRC data) while ignoring transient water.
+2. Leverage Sentinel-1 and Sentinel-2 flood imagery to create detailed flood maps.
+3. Combine hand-labeled and weakly supervised data for robust model training, validation, and testing.
