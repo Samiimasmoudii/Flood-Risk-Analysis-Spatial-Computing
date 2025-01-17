@@ -2,3 +2,4 @@
 notebooks/cifar_net.pth
 src/data_ingest/sentinel_download_sami
 .ipynb_checkpoints/
+Flood-Detection---Satellite-Images-main/data/SEN12-FLOOD/Sentinel_2/Images/sen12floods_s2_source
